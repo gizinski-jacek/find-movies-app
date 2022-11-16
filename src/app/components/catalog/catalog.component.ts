@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from 'src/app/services/http.service';
+import { SearchService } from 'src/app/services/search.service';
 import { Movie } from 'src/types/types';
 
 @Component({
@@ -9,8 +10,12 @@ import { Movie } from 'src/types/types';
 })
 export class CatalogComponent implements OnInit {
   collection: Movie[] = [];
+  searchCollection: Movie[] = [];
 
-  constructor(private httpService: HttpService) {}
+  constructor(
+    private httpService: HttpService,
+    private searchService: SearchService
+  ) {}
 
   ngOnInit() {
     this.httpService.getRandomMovies().subscribe({
@@ -20,5 +25,8 @@ export class CatalogComponent implements OnInit {
       },
       error: (err) => console.log(err),
     });
+    this.searchService.$searchData.subscribe(
+      (data) => (this.searchCollection = data)
+    );
   }
 }
