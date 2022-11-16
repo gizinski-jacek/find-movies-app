@@ -1,5 +1,7 @@
-<div class="d-flex flex-column my-1 mx-auto">
-  <div></div>
-
-  <router-outlet></router-outlet>
+<div class="d-flex flex-column mx-auto">
+  <app-header (inputOnChange)="searchMovie($event)"></app-header>
+  <main class="flex-grow-1">
+    <router-outlet></router-outlet>
+  </main>
+  <app-footer></app-footer>
 </div>
