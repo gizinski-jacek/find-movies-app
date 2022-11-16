@@ -1,20 +1,45 @@
 <div class="d-flex flex-row justify-content-between align-items-center">
-  <a href="/"
-    ><h2>{{ title }}</h2></a
+  <a href="/">
+    <h2>{{ title }}</h2>
+  </a>
+  <div
+    class="position-relative"
+    (mouseenter)="showResults()"
+    (mouseleave)="hideResults()"
   >
-  <form>
-    <input
-      [(ngModel)]="search"
-      type="text"
-      id="search"
-      name="search"
-      maxlength="128"
-      placeholder="Search for a movie"
-      (keyup)="onChange()"
-    />
-    <button type="reset" class="btn btn-warning">X</button>
-  </form>
-  <a href="https://www.themoviedb.org/" referrerpolicy="no-referrer"
-    ><h2>{{ attribution }}</h2></a
-  >
+    <form>
+      <input
+        [(ngModel)]="searchValue"
+        type="text"
+        id="searchValue"
+        name="searchValue"
+        maxlength="128"
+        placeholder="Search for a movie"
+        (keyup)="onChange()"
+        (focus)="onFocus()"
+        (focusout)="onFocusout()"
+      />
+      <button type="button" class="btn btn-warning" (click)="resetInput()">
+        X
+      </button>
+    </form>
+    <div
+      class="position-absolute top-100% start-0 end-0 bg-light search-results"
+      *ngIf="(inputFocus || renderResults) && searchCollection.length"
+    >
+      <div
+        class="d-flex align-items-center"
+        *ngFor="let item of searchCollection"
+      >
+        <img
+          src="https://image.tmdb.org/t/p/w92/{{ item?.poster_path }}"
+          alt="{{ item.title }}"
+        />
+        <div>{{ item.title }}</div>
+      </div>
+    </div>
+  </div>
+  <a href="https://www.themoviedb.org/" referrerpolicy="no-referrer">
+    <h2>{{ attribution }}</h2>
+  </a>
 </div>
