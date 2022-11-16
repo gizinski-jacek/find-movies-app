@@ -1,0 +1,22 @@
+<div>
+  <img
+    class="backdrop"
+    src="https://image.tmdb.org/t/p/w1280/{{ movie?.backdrop_path }}"
+    alt="{{ movie?.original_title }}"
+  />
+  <div class="d-flex">
+    <img
+      class="poster"
+      src="https://image.tmdb.org/t/p/w400/{{ movie?.poster_path }}"
+      alt="{{ movie?.original_title }}"
+    />
+    <div>
+      <h4>{{ movie?.title }}</h4>
+      <p>{{ movie?.original_title }}</p>
+      <h5>{{ movie?.release_date }}</h5>
+      <p>{{ movie?.popularity }}</p>
+      <p>{{ movie?.vote_average }}</p>
+      <p>{{ movie?.vote_count }}</p>
+    </div>
+  </div>
+</div>
