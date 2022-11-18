@@ -6,11 +6,11 @@ import { Movie } from 'src/types/types';
   providedIn: 'root',
 })
 export class SearchService {
-  public $searchData = new Subject<Movie[]>();
+  public $searchData = new Subject<Movie[] | null>();
 
   constructor() {}
 
-  changeSearchData(data: Movie[]) {
+  changeSearchData(data: Movie[] | null) {
     this.$searchData.next(data);
   }
 }
