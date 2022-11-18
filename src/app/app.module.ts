@@ -7,8 +7,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { HeaderComponent } from './components/header/header.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FooterComponent } from './components/footer/footer.component';
-import { FormsModule } from '@angular/forms';
 import { MovieItemComponent } from './components/movie-item/movie-item.component';
+import { FormsModule } from '@angular/forms';
 import { CatalogComponent } from './components/catalog/catalog.component';
 import { CommonModule } from '@angular/common';
 
@@ -20,7 +20,6 @@ import { CommonModule } from '@angular/common';
     CatalogComponent,
     MovieItemComponent,
   ],
-  exports: [MovieItemComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
