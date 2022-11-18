@@ -1,5 +1,19 @@
+div {
+  padding: 0.5rem;
+  transition: 0.25s ease-in-out;
+  border-radius: 1rem;
+
+  &:hover {
+    box-shadow: 0 0 4px 2px gray;
+  }
+}
+
 a {
   display: inline-block;
   width: 200px;
-  white-space: wrap;
+}
+
+img {
+  display: block;
+  margin-bottom: 0.5rem;
 }
