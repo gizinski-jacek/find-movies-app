@@ -4,8 +4,9 @@ import { CatalogComponent } from './components/catalog/catalog.component';
 import { MovieDetailsComponent } from './components/movie-details/movie-details.component';
 
 const routes: Routes = [
-  { path: '', component: CatalogComponent },
-  { path: ':id', component: MovieDetailsComponent },
+  { path: ':type', component: CatalogComponent },
+  { path: ':type/genre/:genre', component: CatalogComponent },
+  { path: ':type/:id', component: MovieDetailsComponent },
 ];
 
 @NgModule({
