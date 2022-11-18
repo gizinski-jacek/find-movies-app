@@ -1,8 +1,8 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { ApiResponse, Movie } from 'src/types/types';
+import { Movie, Genre } from 'src/types/types';
 
 @Injectable({
   providedIn: 'root',
@@ -16,15 +16,18 @@ export class HttpService {
 
   constructor(private http: HttpClient) {}
 
-  getRandomMovies(): Observable<ApiResponse> {
-    return this.http.get<ApiResponse>(`${this.url}/discover/movie`, {
+  getRandomCollection(type: string): Observable<{ results: Movie[] }> {
+    return this.http.get<{ results: Movie[] }>(`${this.url}/discover/${type}`, {
       headers: this.headers,
     });
   }
 
-  searchMovie(query: string): Observable<ApiResponse> {
+  searchForCollection(
+    type: string,
+    query: string
+  ): Observable<{ results: Movie[] }> {
     const params = new HttpParams({ fromString: `query=${query}` });
-    return this.http.get<ApiResponse>(`${this.url}/search/movie`, {
+    return this.http.get<{ results: Movie[] }>(`${this.url}/search/${type}`, {
       headers: this.headers,
       params: params,
     });
@@ -33,6 +36,23 @@ export class HttpService {
   getMovieDetails(id: string): Observable<Movie> {
     return this.http.get<Movie>(`${this.url}/movie/${id}`, {
       headers: this.headers,
+    });
+  }
+
+  getMovieGenres(): Observable<{ genres: Genre[] }> {
+    return this.http.get<{ genres: Genre[] }>(`${this.url}/genre/movie/list`, {
+      headers: this.headers,
+    });
+  }
+
+  getGenreCollection(
+    type: string,
+    genre: string
+  ): Observable<{ results: Movie[] }> {
+    const params = new HttpParams({ fromString: `with_genres=${genre}` });
+    return this.http.get<{ results: Movie[] }>(`${this.url}/discover/${type}`, {
+      headers: this.headers,
+      params: params,
     });
   }
 }
