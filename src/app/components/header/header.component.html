@@ -1,7 +1,17 @@
 <div class="d-flex flex-row justify-content-between align-items-center">
-  <a href="/">
-    <h2>{{ title }}</h2>
-  </a>
+  <nav class="d-flex">
+    <a href="/">Home</a>
+    <div class="movie-controls">
+      <a routerLink="/movie">Movies</a>
+      <ul class="genres">
+        <li *ngFor="let item of genres">
+          <a routerLink="/movie/genre/{{ item.id }}">
+            {{ item.name }}
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
   <div
     class="position-relative"
     (mouseenter)="showResults()"
@@ -25,7 +35,7 @@
     </form>
     <div
       class="position-absolute top-100% start-0 end-0 bg-light search-results"
-      *ngIf="(inputFocus || renderResults) && searchCollection.length"
+      *ngIf="(inputFocus || renderResults) && searchCollection"
     >
       <div
         class="d-flex align-items-center"
@@ -40,6 +50,6 @@
     </div>
   </div>
   <a href="https://www.themoviedb.org/" referrerpolicy="no-referrer">
-    <h2>{{ attribution }}</h2>
+    <h3>{{ attribution }}</h3>
   </a>
 </div>
