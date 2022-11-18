@@ -3,3 +3,39 @@
     height: 80px;
   }
 }
+
+nav {
+  a {
+    padding: 1rem;
+    display: block;
+    background-color: white;
+
+    &:hover {
+      filter: brightness(90%);
+    }
+  }
+}
+
+.movie-controls,
+.tv-controls {
+  background-color: white;
+  position: relative;
+
+  &:hover > .genres {
+    display: flex;
+  }
+}
+
+.genres {
+  display: none;
+  flex-direction: column;
+  background-color: white;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  padding: 0;
+
+  a {
+    padding: 0.25rem 1rem;
+  }
+}
