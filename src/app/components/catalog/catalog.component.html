@@ -1,10 +1,15 @@
-<div class="d-flex gap-4 flex-wrap" *ngIf="searchCollection.length">
+<h2 class="text-capitalize">
+  {{ searchCollection ? "Search Results:" : "Discover Movies:" }}
+</h2>
+
+<div class="d-flex gap-4 flex-wrap" *ngIf="searchCollection">
   <app-movie-item
     *ngFor="let movie of searchCollection"
     [movie]="movie"
   ></app-movie-item>
 </div>
-<div class="d-flex gap-4 flex-wrap" *ngIf="!searchCollection.length">
+
+<div class="d-flex gap-4 flex-wrap" *ngIf="!searchCollection">
   <app-movie-item
     *ngFor="let movie of collection"
     [movie]="movie"
