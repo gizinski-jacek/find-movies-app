@@ -1,7 +1,7 @@
-import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { HttpService } from 'src/app/services/http.service';
+import { RouterParamService } from 'src/app/services/router-param.service';
 import { SearchService } from 'src/app/services/search.service';
 import { Genre, Movie } from 'src/types/types';
 
@@ -11,30 +11,38 @@ import { Genre, Movie } from 'src/types/types';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-  attribution: string = 'Powered By <TMDB Logo Here>';
+  attribution: string = 'Powered By';
   timeout: any = null;
   searchValue: string = '';
   searchCollection: Movie[] | null = null;
   inputFocus: boolean = false;
   renderResults: boolean = false;
   genres: Genre[] = [];
-  subscriptions: Subscription[] = [];
+  genreId: number | null = null;
+  subs: Subscription[] = [];
 
   constructor(
     private http: HttpService,
-    private location: Location,
-    private searchService: SearchService
+    private searchService: SearchService,
+    public params: RouterParamService
   ) {}
 
   ngOnInit(): void {
-    const movieGenresSubscription = this.http
+    const movieGenresSub = this.http
       .getMovieGenres()
-      .subscribe({ next: (res) => (this.genres = res.genres) });
-    this.subscriptions.push(movieGenresSubscription);
+      .subscribe((res) => (this.genres = res['genres']));
+    const paramsSub = this.params.params$.subscribe(({ genre }) => {
+      if (genre) {
+        this.genreId = parseInt(genre);
+      } else {
+        this.genreId = null;
+      }
+    });
+    this.subs.push(movieGenresSub, paramsSub);
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach((s) => s.unsubscribe());
+    this.subs.forEach((s) => s.unsubscribe());
   }
 
   onChange() {
@@ -47,20 +55,18 @@ export class HeaderComponent implements OnInit {
     }
     clearTimeout(this.timeout);
     this.timeout = setTimeout(() => {
-      const path = this.location.path().split('?')[0].replace('/', '');
-      const subscription = this.http
-        .searchForCollection(path, this.searchValue)
-        .subscribe({
-          next: (res) => {
-            if (path === 'movie') {
-              this.searchService.changeSearchData(res.results);
+      this.params.params$.subscribe(({ type, id }) => {
+        const sub = this.http
+          .searchForCollection(type, this.searchValue)
+          .subscribe((res) => {
+            if (id) {
+              this.searchService.changeSearchData(res['results']);
             } else {
-              this.searchCollection = res.results;
+              this.searchCollection = res['results'];
             }
-          },
-          error: (err) => console.log(err),
-        });
-      this.subscriptions.push(subscription);
+          });
+        this.subs.push(sub);
+      });
     }, 500);
   }
 
