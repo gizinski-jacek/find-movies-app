@@ -4,15 +4,26 @@
   }
 }
 
+a {
+  text-decoration: none;
+  color: rgb(0, 0, 0);
+}
+
 nav {
+  padding: 1rem;
+
   a {
-    padding: 1rem;
+    padding: 0.5rem 1rem;
     display: block;
     background-color: white;
 
     &:hover {
       filter: brightness(90%);
     }
+  }
+
+  .activeGenre {
+    background-color: rgb(196, 196, 196) !important;
   }
 }
 
