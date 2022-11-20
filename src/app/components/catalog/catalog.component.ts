@@ -13,7 +13,7 @@ import { Movie } from 'src/types/types';
 export class CatalogComponent implements OnInit {
   collection: Movie[] = [];
   searchCollection: Movie[] | null = null;
-  subscriptions: Subscription[] = [];
+  subs: Subscription[] = [];
 
   constructor(
     private httpService: HttpService,
@@ -24,37 +24,30 @@ export class CatalogComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(({ type, genre }) => {
       if (!genre) {
-        const subscription = this.httpService
+        const sub = this.httpService
           .getRandomCollection(type)
-          .subscribe({
-            next: (res) => {
-              const random = res.results.slice(0, 8);
-              console.log(random);
-              this.collection = random;
-            },
-            error: (err) => console.log(err),
+          .subscribe((res) => {
+            const random = res['results'].slice(0, 8);
+            this.collection = random;
           });
-        this.subscriptions.push(subscription);
+        this.subs.push(sub);
       } else {
-        const subscription = this.httpService
+        const sub = this.httpService
           .getGenreCollection(type, genre)
-          .subscribe({
-            next: (res) => {
-              const random = res.results.slice(0, 8);
-              this.collection = random;
-            },
-            error: (err) => console.log(err),
+          .subscribe((res) => {
+            const random = res['results'].slice(0, 8);
+            this.collection = random;
           });
-        this.subscriptions.push(subscription);
+        this.subs.push(sub);
       }
     });
-    const searchSubscription = this.searchService.$searchData.subscribe(
+    const searchSub = this.searchService.$searchData.subscribe(
       (data) => (this.searchCollection = data)
     );
-    this.subscriptions.push(searchSubscription);
+    this.subs.push(searchSub);
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach((s) => s.unsubscribe());
+    this.subs.forEach((s) => s.unsubscribe());
   }
 }
