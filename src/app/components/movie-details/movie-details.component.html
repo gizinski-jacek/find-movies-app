@@ -1,22 +1,62 @@
 <div>
   <img
-    class="backdrop"
+    *ngIf="movie?.backdrop_path"
     src="https://image.tmdb.org/t/p/w1280/{{ movie?.backdrop_path }}"
     alt="{{ movie?.original_title }}"
+    class="backdrop"
   />
   <div class="d-flex">
     <img
-      class="poster"
-      src="https://image.tmdb.org/t/p/w400/{{ movie?.poster_path }}"
+      *ngIf="movie?.poster_path"
+      src="https://image.tmdb.org/t/p/w300/{{ movie?.poster_path }}"
       alt="{{ movie?.original_title }}"
+      class="poster"
     />
     <div>
-      <h4>{{ movie?.title }}</h4>
-      <p>{{ movie?.original_title }}</p>
-      <h5>{{ movie?.release_date }}</h5>
-      <p>{{ movie?.popularity }}</p>
-      <p>{{ movie?.vote_average }}</p>
-      <p>{{ movie?.vote_count }}</p>
+      <h2>{{ movie?.title }}</h2>
+      <h3>{{ movie?.original_title }}</h3>
+      <div *ngIf="movie?.adult">PG18</div>
+      <h4 *ngIf="movie?.tagline">{{ movie?.tagline }}</h4>
+      <div>
+        Genre:
+        <a
+          *ngFor="let genre of movie?.genres"
+          routerLink="/movie/genre/{{ genre.id }}"
+          class="genre"
+          >{{ genre.name }}</a
+        >
+      </div>
+      <div>Status: {{ movie?.status }}</div>
+      <div>Release Date: {{ movie?.release_date }}</div>
+      <div>Popularity: {{ movie?.popularity }}</div>
+      <div>Runtime: {{ movie?.runtime }} minutes</div>
+      <div>{{ movie?.overview }}</div>
+      <div>Budget: ${{ movie?.budget }}</div>
+      <div>Revenue: ${{ movie?.revenue }}</div>
+      <div>Average Vote: {{ movie?.vote_average }}</div>
+      <div>Vote Count: {{ movie?.vote_count }}</div>
+      <div *ngIf="movie?.homepage">
+        <a href="{{ movie?.homepage }}" alt="Homepage" class="homepage"
+          >Homepage</a
+        >
+      </div>
+      <div>
+        Production:
+        <ng-container *ngFor="let countries of movie?.production_countries">
+          {{ countries.iso_3166_1 }}
+        </ng-container>
+      </div>
+      <div>
+        Companies:
+        <span *ngFor="let companies of movie?.production_companies">
+          <img
+            *ngIf="companies.logo_path"
+            src="https://image.tmdb.org/t/p/w92/{{ companies.logo_path }}"
+            alt="{{ companies.name }}"
+          />
+          <p>{{ companies.name }}</p>
+        </span>
+      </div>
     </div>
   </div>
 </div>
