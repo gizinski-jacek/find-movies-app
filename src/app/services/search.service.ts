@@ -1,16 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { Movie } from 'src/types/types';
+import { Movie, TvShow } from 'src/types/types';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SearchService {
-  public $searchData = new Subject<Movie[] | null>();
+  $movieSearchData = new Subject<Movie[] | null>();
+  $tvShowSearchData = new Subject<TvShow[] | null>();
 
   constructor() {}
 
-  changeSearchData(data: Movie[] | null) {
-    this.$searchData.next(data);
+  changeMovieSearchData(data: Movie[] | null) {
+    this.$movieSearchData.next(data);
+  }
+
+  changeTvShowSearchData(data: TvShow[] | null) {
+    this.$tvShowSearchData.next(data);
   }
 }
