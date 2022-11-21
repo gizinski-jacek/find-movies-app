@@ -1,0 +1,16 @@
+img {
+  display: block;
+}
+
+.backdrop {
+  width: 100%;
+  height: 200px;
+}
+
+a {
+  text-decoration: none;
+
+  &.genre {
+    color: green;
+  }
+}
