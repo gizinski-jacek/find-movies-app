@@ -1,0 +1,17 @@
+<h2 class="text-capitalize">
+  {{ searchCollection ? "Search Results:" : "Discover Movies:" }}
+</h2>
+
+<div class="d-flex gap-4 flex-wrap" *ngIf="searchCollection">
+  <app-tv-show-item
+    *ngFor="let tvShow of searchCollection"
+    [tvShow]="tvShow"
+  ></app-tv-show-item>
+</div>
+
+<div class="d-flex gap-4 flex-wrap" *ngIf="!searchCollection">
+  <app-tv-show-item
+    *ngFor="let tvShow of collection"
+    [tvShow]="tvShow"
+  ></app-tv-show-item>
+</div>
