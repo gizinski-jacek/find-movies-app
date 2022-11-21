@@ -1,0 +1,10 @@
+<div>
+  <a routerLink="/tv/{{ tvShow?.id }}">
+    <img
+      src="https://image.tmdb.org/t/p/w200/{{ tvShow?.poster_path }}"
+      alt="{{ tvShow?.name }}"
+    />
+    <h4>{{ tvShow?.name }}</h4>
+    <h5>{{ tvShow?.first_air_date }}</h5>
+  </a>
+</div>
