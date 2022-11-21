@@ -23,13 +23,21 @@
           *ngFor="let genre of movie?.genres"
           routerLink="/movie/genre/{{ genre.id }}"
           class="genre"
-          >{{ genre.name }}</a
-        >
+          >{{ genre.name }}
+        </a>
       </div>
       <div>Status: {{ movie?.status }}</div>
       <div>Release Date: {{ movie?.release_date }}</div>
       <div>Popularity: {{ movie?.popularity }}</div>
       <div>Runtime: {{ movie?.runtime }} minutes</div>
+      <div>
+        Original Language:
+        <span>{{ movie?.original_language }}</span>
+      </div>
+      <div>
+        Spoken Languages:
+        <span *ngFor="let lang of movie?.spoken_languages">{{ lang }} </span>
+      </div>
       <div>{{ movie?.overview }}</div>
       <div>Budget: ${{ movie?.budget }}</div>
       <div>Revenue: ${{ movie?.revenue }}</div>
