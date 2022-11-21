@@ -2,14 +2,25 @@
   <nav class="d-flex">
     <a href="/">Home</a>
     <div class="movie-controls">
-      <a routerLink="/movie" [ngClass]="{ activeGenre: genreId === null }"
-        >Movies
-      </a>
+      <a routerLink="/movie">Movies </a>
       <ul class="genres">
-        <li *ngFor="let item of genres">
+        <li *ngFor="let item of movieGenres">
           <a
-            [ngClass]="{ activeGenre: genreId === item.id }"
+            [ngClass]="{ activeGenre: movieGenreId === item.id }"
             routerLink="/movie/genre/{{ item.id }}"
+          >
+            {{ item.name }}
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="tv-controls">
+      <a routerLink="/tv">Tv Shows </a>
+      <ul class="genres">
+        <li *ngFor="let item of tvShowGenres">
+          <a
+            [ngClass]="{ activeGenre: tvShowGenreId === item.id }"
+            routerLink="/tv/genre/{{ item.id }}"
           >
             {{ item.name }}
           </a>
@@ -29,7 +40,7 @@
         id="searchValue"
         name="searchValue"
         maxlength="128"
-        placeholder="Search for a movie"
+        placeholder="{{ placeholder }}"
         (keyup)="onChange()"
         (focus)="onFocus()"
         (focusout)="onFocusout()"
@@ -40,17 +51,34 @@
     </form>
     <div
       class="position-absolute top-100% start-0 end-0 bg-light search-results"
-      *ngIf="(inputFocus || renderResults) && searchCollection"
+      *ngIf="
+        (inputFocus || renderResults) &&
+        (searchMovieCollection || searchTvShowCollection)
+      "
     >
-      <div
-        class="d-flex align-items-center"
-        *ngFor="let item of searchCollection"
-      >
-        <img
-          src="https://image.tmdb.org/t/p/w92/{{ item?.poster_path }}"
-          alt="{{ item.title }}"
-        />
-        <div>{{ item.title }}</div>
+      <div *ngIf="searchMovieCollection">
+        <div
+          class="d-flex align-items-center"
+          *ngFor="let item of searchMovieCollection"
+        >
+          <img
+            src="https://image.tmdb.org/t/p/w92/{{ item?.poster_path }}"
+            alt="{{ item.title }}"
+          />
+          <div>{{ item.title }}</div>
+        </div>
+      </div>
+      <div *ngIf="searchTvShowCollection">
+        <div
+          class="d-flex align-items-center"
+          *ngFor="let item of searchTvShowCollection"
+        >
+          <img
+            src="https://image.tmdb.org/t/p/w92/{{ item?.poster_path }}"
+            alt="{{ item.name }}"
+          />
+          <div>{{ item.original_name }}</div>
+        </div>
       </div>
     </div>
   </div>
