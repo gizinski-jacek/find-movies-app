@@ -1,0 +1,15 @@
+:host {
+  background-color: rgba(0, 0, 0, 0.75) !important;
+  color: rgb(225, 225, 225) !important;
+
+  > div {
+    max-width: 1024px;
+    margin: 0 auto;
+  }
+}
+
+h3 {
+  text-align: center;
+  margin: 0;
+  padding: 1rem;
+}
