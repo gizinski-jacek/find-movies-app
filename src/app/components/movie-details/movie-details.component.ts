@@ -24,9 +24,9 @@ export class MovieDetailsComponent implements OnInit {
   }
 
   getDetails(id: string): void {
-    const sub = this.http.getMovieDetails(id).subscribe((res) => {
-      this.movie = res;
-    });
+    const sub = this.http
+      .getMovieDetails(id)
+      .subscribe((res) => (this.movie = res));
     this.subscriptions.push(sub);
   }
 

@@ -24,9 +24,9 @@ export class TvShowDetailsComponent implements OnInit {
   }
 
   getDetails(id: string): void {
-    const sub = this.http.getTvShowDetails(id).subscribe((res) => {
-      this.tvShow = res;
-    });
+    const sub = this.http
+      .getTvShowDetails(id)
+      .subscribe((res) => (this.tvShow = res));
     this.subscriptions.push(sub);
   }
 
