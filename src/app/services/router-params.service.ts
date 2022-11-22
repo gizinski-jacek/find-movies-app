@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -9,7 +10,8 @@ export class RouterParamsService {
 
   constructor(
     private readonly router: Router,
-    private readonly rootRoute: ActivatedRoute
+    private readonly rootRoute: ActivatedRoute,
+    private location: Location
   ) {
     this.params$ = this.router.events.pipe(
       filter((e) => e instanceof NavigationEnd),
@@ -31,6 +33,11 @@ export class RouterParamsService {
         params = { ...this.getParams(r), ...params };
       }
     }
+    const type = this.location
+      .path()
+      .split('/')
+      .filter((s) => s)[0];
+    params = { ...params, type: type };
     return params;
   }
 }
