@@ -4,18 +4,19 @@ import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
 @Injectable()
-export class RouterParamService {
+export class RouterParamsService {
   params$: Observable<{ [key: string]: string }>;
 
   constructor(
     private readonly router: Router,
     private readonly rootRoute: ActivatedRoute
   ) {
-    this.params$ = router.events.pipe(
+    this.params$ = this.router.events.pipe(
       filter((e) => e instanceof NavigationEnd),
       map((e) => this.getParams(this.rootRoute))
     );
   }
+
   paramsSnapshot() {
     return this.getParams(this.rootRoute);
   }
