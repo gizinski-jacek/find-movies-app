@@ -1,8 +1,7 @@
-import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { HttpService } from 'src/app/services/http.service';
-import { RouterParamService } from 'src/app/services/router-param.service';
+import { RouterParamsService } from 'src/app/services/router-params.service';
 import { SearchService } from 'src/app/services/search.service';
 import { Genre, Movie, TvShow } from 'src/types/types';
 
@@ -25,12 +24,16 @@ export class HeaderComponent implements OnInit {
   tvShowGenreId: number | null = null;
   placeholder: string = '';
   subs: Subscription[] = [];
+  currentParams: { type: string; id: string; genre: string } = {
+    type: '',
+    id: '',
+    genre: '',
+  };
 
   constructor(
     private http: HttpService,
     private searchService: SearchService,
-    private params: RouterParamService,
-    private location: Location
+    private paramsService: RouterParamsService
   ) {}
 
   ngOnInit(): void {
@@ -40,18 +43,21 @@ export class HeaderComponent implements OnInit {
     const tvShowGenresSub = this.http
       .getTvShowGenres()
       .subscribe((res) => (this.tvShowGenres = res['genres']));
-    const paramsSub = this.params.params$.subscribe(({ genre }) => {
-      const path = this.location.path().split('/')[1];
-      if (path === 'movie') {
-        this.movieGenreId = genre ? parseInt(genre) : null;
-        this.tvShowGenreId = null;
-        this.placeholder = 'Search for a Movie';
-      } else if (path === 'tv') {
-        this.tvShowGenreId = genre ? parseInt(genre) : null;
-        this.movieGenreId = null;
-        this.placeholder = 'Search for a Tv Show';
+    const paramsSub = this.paramsService.params$.subscribe(
+      ({ type, id, genre }) => {
+        this.searchValue = '';
+        this.currentParams = { type, id, genre };
+        if (type === 'movie') {
+          this.movieGenreId = genre ? parseInt(genre) : null;
+          this.tvShowGenreId = null;
+          this.placeholder = 'Search for a Movie';
+        } else if (type === 'tv') {
+          this.tvShowGenreId = genre ? parseInt(genre) : null;
+          this.movieGenreId = null;
+          this.placeholder = 'Search for a Tv Show';
+        }
       }
-    });
+    );
     this.subs.push(movieGenresSub, tvShowGenresSub, paramsSub);
   }
 
@@ -71,36 +77,33 @@ export class HeaderComponent implements OnInit {
 
     clearTimeout(this.timeout);
     this.timeout = setTimeout(() => {
-      const paramsSub = this.params.params$.subscribe(({ id }) => {
-        const path = this.location.path();
-        if (path === '/movie') {
-          const sub = this.http
-            .searchForMovie(this.searchValue)
-            .subscribe((res) => {
-              if (!id) {
-                this.searchService.changeMovieSearchData(res['results']);
-              } else {
-                this.searchMovieCollection = res['results'];
-                this.searchTvShowCollection = null;
-              }
-            });
-          this.subs.push(sub);
-        } else if (path === '/tv') {
-          const sub = this.http
-            .searchForTvShow(this.searchValue)
-            .subscribe((res) => {
-              if (!id) {
-                console.log(res);
-                this.searchService.changeTvShowSearchData(res['results']);
-              } else {
-                this.searchTvShowCollection = res['results'];
-                this.searchMovieCollection = null;
-              }
-            });
-          this.subs.push(sub);
-        }
-      });
-      this.subs.push(paramsSub);
+      const { type, id, genre } = this.currentParams;
+      if (type === 'movie') {
+        const sub = this.http
+          .searchForMovie(this.searchValue)
+          .subscribe((res) => {
+            if (!id || id === 'genre') {
+              this.searchService.changeMovieSearchData(res['results']);
+            } else {
+              this.searchMovieCollection = res['results'];
+              this.searchTvShowCollection = null;
+            }
+          });
+        this.subs.push(sub);
+      } else if (type === 'tv') {
+        const sub = this.http
+          .searchForTvShow(this.searchValue)
+          .subscribe((res) => {
+            if (!id || id === 'genre') {
+              console.log(res);
+              this.searchService.changeTvShowSearchData(res['results']);
+            } else {
+              this.searchTvShowCollection = res['results'];
+              this.searchMovieCollection = null;
+            }
+          });
+        this.subs.push(sub);
+      }
     }, 500);
   }
 
