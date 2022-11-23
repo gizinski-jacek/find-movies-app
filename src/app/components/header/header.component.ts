@@ -45,6 +45,8 @@ export class HeaderComponent implements OnInit {
       .subscribe((res) => (this.tvShowGenres = res['genres']));
     const paramsSub = this.paramsService.params$.subscribe(
       ({ type, id, genre }) => {
+        this.searchMovieCollection = null;
+        this.searchTvShowCollection = null;
         this.searchValue = '';
         this.currentParams = { type, id, genre };
         if (type === 'movie') {
@@ -68,6 +70,7 @@ export class HeaderComponent implements OnInit {
   onChange() {
     if (!this.searchValue) {
       this.searchService.changeMovieSearchData(null);
+      this.searchService.changeTvShowSearchData(null);
       return;
     }
 
@@ -95,7 +98,6 @@ export class HeaderComponent implements OnInit {
           .searchForTvShow(this.searchValue)
           .subscribe((res) => {
             if (!id || id === 'genre') {
-              console.log(res);
               this.searchService.changeTvShowSearchData(res['results']);
             } else {
               this.searchTvShowCollection = res['results'];
@@ -110,6 +112,7 @@ export class HeaderComponent implements OnInit {
   resetInput() {
     this.searchValue = '';
     this.searchService.changeMovieSearchData(null);
+    this.searchService.changeTvShowSearchData(null);
   }
 
   onFocus() {
