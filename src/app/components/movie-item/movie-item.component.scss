@@ -1,10 +1,10 @@
 div {
   padding: 0.5rem;
   transition: 0.25s ease-in-out;
-  border-radius: 1rem;
+  border-radius: 0.25rem;
 
   &:hover {
-    box-shadow: 0 0 4px 2px gray;
+    box-shadow: 0 0 4px 2px rgb(100, 100, 100);
   }
 }
 
