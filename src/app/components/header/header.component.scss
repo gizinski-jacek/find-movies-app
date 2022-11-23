@@ -1,35 +1,42 @@
-.search-results {
-  img {
-    height: 80px;
+:host {
+  background-color: rgb(20, 20, 20);
+  color: rgb(225, 225, 225);
+
+  > div {
+    max-width: 1024px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto;
   }
 }
 
 a {
   text-decoration: none;
-  color: rgb(0, 0, 0);
 }
 
 nav {
+  display: flex;
   padding: 1rem;
 
   a {
     padding: 0.5rem 1rem;
     display: block;
-    background-color: white;
+    background-color: rgb(20, 20, 20);
+    transition: 0.25s ease-in-out;
 
     &:hover {
-      filter: brightness(90%);
+      filter: brightness(150%);
     }
-  }
 
-  .activeGenre {
-    background-color: rgb(196, 196, 196) !important;
+    &:active {
+      filter: brightness(200%);
+    }
   }
 }
 
 .movie-controls,
 .tv-controls {
-  background-color: white;
   position: relative;
 
   &:hover > .genres {
@@ -40,7 +47,6 @@ nav {
 .genres {
   display: none;
   flex-direction: column;
-  background-color: white;
   position: absolute;
   top: 100%;
   left: 0;
@@ -48,5 +54,66 @@ nav {
 
   a {
     padding: 0.25rem 1rem;
+    background-color: rgb(20, 20, 20);
+
+    &:hover {
+      filter: brightness(150%);
+    }
+
+    &.activeGenre {
+      filter: brightness(150%);
+    }
+
+    &:active {
+      filter: brightness(150%);
+    }
+  }
+}
+
+.search {
+  position: relative;
+  width: 400px;
+
+  form {
+    flex: 1;
+    display: flex;
+
+    input {
+      flex: 1;
+    }
+  }
+
+  .search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: rgb(20, 20, 20);
+
+    ul {
+      padding: 0.5rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    li a {
+      display: flex;
+      align-items: center;
+      padding: 0 0.5rem;
+      background-color: rgb(20, 20, 20);
+      transition: 0.25s ease-in-out;
+
+      &:hover {
+        background-color: rgb(40, 40, 40);
+      }
+
+      img {
+        width: 68px;
+        height: 100px;
+        margin-right: 1rem;
+        word-wrap: break-word;
+      }
+    }
   }
 }
