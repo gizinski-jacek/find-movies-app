@@ -17,6 +17,7 @@ import { MovieCatalogComponent } from './components/movie-catalog/movie-catalog.
 import { TvShowCatalogComponent } from './components/tv-show-catalog/tv-show-catalog.component';
 import { TvShowItemComponent } from './components/tv-show-item/tv-show-item.component';
 import { TvShowDetailsComponent } from './components/tv-show-details/tv-show-details.component';
+import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { TvShowDetailsComponent } from './components/tv-show-details/tv-show-det
     TvShowCatalogComponent,
     TvShowItemComponent,
     TvShowDetailsComponent,
+    LoadingSpinnerComponent,
   ],
   imports: [
     BrowserModule,
