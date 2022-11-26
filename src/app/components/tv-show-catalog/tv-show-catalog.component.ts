@@ -11,6 +11,7 @@ import { TvShow } from 'src/types/types';
   styleUrls: ['./tv-show-catalog.component.scss'],
 })
 export class TvShowCatalogComponent implements OnInit {
+  loading: boolean = true;
   collection: TvShow[] = [];
   searchCollection: TvShow[] | null = null;
   subs: Subscription[] = [];
@@ -26,6 +27,7 @@ export class TvShowCatalogComponent implements OnInit {
       const sub = this.httpService.getRandomTvShows(genre).subscribe((res) => {
         const random = res['results'].slice(0, 8);
         this.collection = random;
+        this.loading = false;
       });
       this.subs.push(sub);
     });

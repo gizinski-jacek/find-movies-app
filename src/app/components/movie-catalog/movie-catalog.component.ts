@@ -11,6 +11,7 @@ import { Movie } from 'src/types/types';
   styleUrls: ['./movie-catalog.component.scss'],
 })
 export class MovieCatalogComponent implements OnInit {
+  loading: boolean = true;
   collection: Movie[] = [];
   searchCollection: Movie[] | null = null;
   subs: Subscription[] = [];
@@ -26,6 +27,7 @@ export class MovieCatalogComponent implements OnInit {
       const sub = this.httpService.getRandomMovies(genre).subscribe((res) => {
         const random = res['results'].slice(0, 8);
         this.collection = random;
+        this.loading = false;
       });
       this.subs.push(sub);
     });

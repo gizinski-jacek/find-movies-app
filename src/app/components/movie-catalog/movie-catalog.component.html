@@ -1,17 +1,21 @@
-<h2 class="text-capitalize">
-  {{ searchCollection ? "Search Results:" : "Discover Movies:" }}
-</h2>
+<app-loading-spinner *ngIf="loading; else mainBlock"></app-loading-spinner>
 
-<div class="d-flex gap-4 flex-wrap" *ngIf="searchCollection">
-  <app-movie-item
-    *ngFor="let movie of searchCollection"
-    [movie]="movie"
-  ></app-movie-item>
-</div>
+<ng-template #mainBlock>
+  <h2 class="text-capitalize">
+    {{ searchCollection ? "Search Results:" : "Discover Movies:" }}
+  </h2>
 
-<div class="d-flex gap-4 flex-wrap" *ngIf="!searchCollection">
-  <app-movie-item
-    *ngFor="let movie of collection"
-    [movie]="movie"
-  ></app-movie-item>
-</div>
+  <div class="container" *ngIf="searchCollection">
+    <app-movie-item
+      *ngFor="let movie of searchCollection"
+      [movie]="movie"
+    ></app-movie-item>
+  </div>
+
+  <div class="container" *ngIf="!searchCollection">
+    <app-movie-item
+      *ngFor="let movie of collection"
+      [movie]="movie"
+    ></app-movie-item>
+  </div>
+</ng-template>
