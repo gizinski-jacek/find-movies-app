@@ -132,10 +132,14 @@ table {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
     Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   font-size: 14px;
-  color: #333;
+  color: rgb(225, 225, 225);
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  color: rgb(225, 225, 225) !important;
 }
 
 h1,
@@ -144,7 +148,7 @@ h3,
 h4,
 h5,
 h6 {
-  margin: 8px 0;
+  margin: 8px 0 !important;
 }
 
 h1 {
@@ -177,7 +181,7 @@ p {
 }
 
 a {
-  color: rgb(225, 225, 225) !important;
+  text-decoration: none !important;
 }
 
 /* Importing Bootstrap SCSS file. */
