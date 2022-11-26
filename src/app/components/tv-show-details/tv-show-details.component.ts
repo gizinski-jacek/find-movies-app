@@ -10,6 +10,7 @@ import { TvShowDetails } from 'src/types/types';
   styleUrls: ['./tv-show-details.component.scss'],
 })
 export class TvShowDetailsComponent implements OnInit {
+  loading: boolean = true;
   id: string | undefined;
   tvShow: TvShowDetails | undefined;
   subscriptions: Subscription[] = [];
@@ -24,9 +25,10 @@ export class TvShowDetailsComponent implements OnInit {
   }
 
   getDetails(id: string): void {
-    const sub = this.http
-      .getTvShowDetails(id)
-      .subscribe((res) => (this.tvShow = res));
+    const sub = this.http.getTvShowDetails(id).subscribe((res) => {
+      this.tvShow = res;
+      this.loading = false;
+    });
     this.subscriptions.push(sub);
   }
 

@@ -10,6 +10,7 @@ import { MovieDetails } from 'src/types/types';
   styleUrls: ['./movie-details.component.scss'],
 })
 export class MovieDetailsComponent implements OnInit {
+  loading: boolean = true;
   id: string | undefined;
   movie: MovieDetails | undefined;
   subscriptions: Subscription[] = [];
@@ -24,9 +25,10 @@ export class MovieDetailsComponent implements OnInit {
   }
 
   getDetails(id: string): void {
-    const sub = this.http
-      .getMovieDetails(id)
-      .subscribe((res) => (this.movie = res));
+    const sub = this.http.getMovieDetails(id).subscribe((res) => {
+      this.movie = res;
+      this.loading = false;
+    });
     this.subscriptions.push(sub);
   }
 

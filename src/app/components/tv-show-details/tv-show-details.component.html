@@ -1,98 +1,119 @@
-<div>
-  <img
-    *ngIf="tvShow?.backdrop_path"
-    src="https://image.tmdb.org/t/p/w1280/{{ tvShow?.backdrop_path }}"
-    alt="{{ tvShow?.original_name }}"
-    class="backdrop"
-  />
-  <div class="d-flex">
-    <img
-      *ngIf="tvShow?.poster_path"
-      src="https://image.tmdb.org/t/p/w300/{{ tvShow?.poster_path }}"
-      alt="{{ tvShow?.original_name }}"
-      class="poster"
-    />
-    <div>
-      <h2>{{ tvShow?.name }}</h2>
-      <h3>{{ tvShow?.original_name }}</h3>
-      <h4 *ngIf="tvShow?.tagline">{{ tvShow?.tagline }}</h4>
-      <div>
-        Genre:
-        <a
-          *ngFor="let genre of tvShow?.genres"
-          routerLink="/tv/genre/{{ genre.id }}"
-          class="genre"
-          >{{ genre.name }}</a
-        >
+<app-loading-spinner *ngIf="loading; else mainBlock"></app-loading-spinner>
+
+<ng-template #mainBlock>
+  <div>
+    <div class="backdrop">
+      <img
+        *ngIf="tvShow?.backdrop_path"
+        src="https://image.tmdb.org/t/p/w1280/{{ tvShow?.backdrop_path }}"
+        alt="{{ tvShow?.original_name }}"
+      />
+    </div>
+    <div class="d-flex my-3">
+      <div class="poster">
+        <img
+          *ngIf="tvShow?.poster_path"
+          src="https://image.tmdb.org/t/p/w300/{{ tvShow?.poster_path }}"
+          alt="{{ tvShow?.original_name }}"
+        />
       </div>
-      <div>In Production: {{ tvShow?.in_production }}</div>
-      <div>Status: {{ tvShow?.status }}</div>
-      <div>Type: {{ tvShow?.type }}</div>
-      <div>Seasons: {{ tvShow?.number_of_seasons }}</div>
-      <div>Episodes: {{ tvShow?.number_of_episodes }}</div>
-      <div>First Air Date: {{ tvShow?.first_air_date }}</div>
-      <div>Last Air Date: {{ tvShow?.last_air_date }}</div>
-      <div>Popularity: {{ tvShow?.popularity }}</div>
-      <div>Episode Runtime: {{ tvShow?.episode_run_time }} minutes</div>
-      <div>
-        Original Language:
-        <span>{{ tvShow?.original_language }}</span>
-      </div>
-      <div>
-        Spoken Languages:
-        <span *ngFor="let lang of tvShow?.spoken_languages">{{ lang }} </span>
-      </div>
-      <div>
-        Languages:
-        <span *ngFor="let lang of tvShow?.languages">{{ lang }} </span>
-      </div>
-      <div>
-        Networks:
-        <div *ngFor="let network of tvShow?.networks">
-          <img
-            *ngIf="network.logo_path"
-            src="https://image.tmdb.org/t/p/w92/{{ network.logo_path }}"
-            alt="{{ network.name }}"
-          />
-          <p>{{ network.name }}</p>
+      <div class="details">
+        <h2>{{ tvShow?.name }}</h2>
+        <h3>{{ tvShow?.original_name }}</h3>
+        <h4 *ngIf="tvShow?.tagline">{{ tvShow?.tagline }}</h4>
+        <div>
+          Genre:
+          <a
+            *ngFor="let genre of tvShow?.genres"
+            routerLink="/tv/genre/{{ genre.id }}"
+            class="genre"
+            >{{ genre.name }}</a
+          >
         </div>
-      </div>
-      <div>{{ tvShow?.overview }}</div>
-      <div>Average Vote: {{ tvShow?.vote_average }}</div>
-      <div>Vote Count: {{ tvShow?.vote_count }}</div>
-      <div *ngIf="tvShow?.homepage">
-        <a href="{{ tvShow?.homepage }}" alt="Homepage" class="homepage"
-          >Homepage</a
-        >
-      </div>
-      <div>
-        Created By:
-        <div *ngFor="let creator of tvShow?.created_by">
-          <img
-            *ngIf="creator.profile_path"
-            src="https://image.tmdb.org/t/p/w92/{{ creator.profile_path }}"
-            alt="{{ creator.name }}"
-          />
-          <p>{{ creator.name }}</p>
+        <div>In Production: {{ tvShow?.in_production ? "Yes" : "No" }}</div>
+        <div>Status: {{ tvShow?.status }}</div>
+        <div>Type: {{ tvShow?.type }}</div>
+        <div>Seasons: {{ tvShow?.number_of_seasons }}</div>
+        <div>Episodes: {{ tvShow?.number_of_episodes }}</div>
+        <div>First Air Date: {{ tvShow?.first_air_date }}</div>
+        <div>Last Air Date: {{ tvShow?.last_air_date }}</div>
+        <div>{{ tvShow?.overview }}</div>
+        <div>Episode Runtime: {{ tvShow?.episode_run_time }} minutes</div>
+        <div>Popularity: {{ tvShow?.popularity }}</div>
+        <div>Average Vote: {{ tvShow?.vote_average }}</div>
+        <div>Vote Count: {{ tvShow?.vote_count }}</div>
+        <div *ngIf="tvShow?.homepage">
+          <a href="{{ tvShow?.homepage }}" alt="Homepage" class="homepage"
+            >Homepage</a
+          >
         </div>
-      </div>
-      <div>
-        Production:
-        <ng-container *ngFor="let countries of tvShow?.production_countries">
-          {{ countries.iso_3166_1 }}
-        </ng-container>
-      </div>
-      <div>
-        Companies:
-        <div *ngFor="let companies of tvShow?.production_companies">
-          <img
-            *ngIf="companies.logo_path"
-            src="https://image.tmdb.org/t/p/w92/{{ companies.logo_path }}"
-            alt="{{ companies.name }}"
-          />
-          <p>{{ companies.name }}</p>
+        <div>
+          Original Language:
+          <span class="text-uppercase">{{ tvShow?.original_language }}</span>
+        </div>
+        <div>
+          Spoken Languages:
+          <span
+            class="text-uppercase"
+            *ngFor="let lang of tvShow?.spoken_languages"
+            >{{ lang.iso_639_1 }}
+          </span>
+        </div>
+        <div>
+          Languages:
+          <span class="text-uppercase" *ngFor="let lang of tvShow?.languages"
+            >{{ lang }}
+          </span>
+        </div>
+        <div *ngIf="(tvShow?.networks)!.length > 0">
+          Networks:
+          <div class="networks">
+            <span *ngFor="let network of tvShow?.networks">
+              <img
+                *ngIf="network.logo_path; else empty"
+                src="https://image.tmdb.org/t/p/w92/{{ network.logo_path }}"
+                alt="{{ network.name }}"
+              />
+              <ng-template #empty><span class="empty"></span></ng-template>
+              <p>{{ network.name }}</p>
+            </span>
+          </div>
+        </div>
+        <div *ngIf="(tvShow?.created_by)!.length > 0">
+          Created By:
+          <div class="creators">
+            <span *ngFor="let creator of tvShow?.created_by">
+              <img
+                *ngIf="creator.profile_path; else empty"
+                src="https://image.tmdb.org/t/p/w92/{{ creator.profile_path }}"
+                alt="{{ creator.name }}"
+              />
+              <ng-template #empty><span class="empty"></span></ng-template>
+              <p>{{ creator.name }}</p>
+            </span>
+          </div>
+        </div>
+        <div>
+          Production:
+          <ng-container *ngFor="let countries of tvShow?.production_countries">
+            {{ countries.iso_3166_1 }}
+          </ng-container>
+        </div>
+        <div *ngIf="(tvShow?.production_companies)!.length > 0">
+          Companies:
+          <div class="companies">
+            <span *ngFor="let companies of tvShow?.production_companies">
+              <img
+                *ngIf="companies.logo_path; else empty"
+                src="https://image.tmdb.org/t/p/w92/{{ companies.logo_path }}"
+                alt="{{ companies.name }}"
+              />
+              <ng-template #empty><span class="empty"></span></ng-template>
+              <p>{{ companies.name }}</p>
+            </span>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+</ng-template>
