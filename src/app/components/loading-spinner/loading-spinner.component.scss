@@ -1,0 +1,19 @@
+.spinner {
+  margin: 5rem auto;
+  border: 1.5rem solid rgb(150, 150, 150);
+  border-radius: 50%;
+  border-top: 1.5rem solid rgb(0, 200, 75);
+  width: 200px;
+  height: 200px;
+  animation: spinner 1.5s linear infinite;
+
+  @keyframes spinner {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}
